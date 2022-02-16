@@ -5,7 +5,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// InitLog configura a saída do log para a pasta desejada
+// InitLog formats the log
 func InitLog(level logrus.Level) {
 	logrus.SetOutput(colorable.NewColorableStdout())
 	logrus.SetFormatter(&logrus.TextFormatter{

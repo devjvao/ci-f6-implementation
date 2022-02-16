@@ -7,7 +7,8 @@ import (
 	"math/rand"
 )
 
-func SelectOne(individuals []*chromosome.Model, max float64) *chromosome.Model {
+// SelectOne selects one random chromosome
+func SelectOne(individuals []chromosome.Model, max float64) chromosome.Model {
 	rouletteRandom := rand.Float64() * max
 	rouletteSum := float64(0)
 
@@ -19,5 +20,5 @@ func SelectOne(individuals []*chromosome.Model, max float64) *chromosome.Model {
 	}
 
 	log.Fatal(errors.New("internal failure"))
-	return nil
+	return chromosome.Model{}
 }

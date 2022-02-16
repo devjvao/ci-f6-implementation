@@ -6,16 +6,19 @@ import (
 	"math/rand"
 )
 
+// Parents struct that contains two chromosomes to do the crossover
 type Parents struct {
-	ChromosomeA *chromosome.Model
-	ChromosomeB *chromosome.Model
+	ChromosomeA chromosome.Model
+	ChromosomeB chromosome.Model
 }
 
+// ShouldDoCrossover randomly check if the crossover will be done
 func (c Parents) ShouldDoCrossover() bool {
 	return rand.Float64() < crossoverRate
 }
 
-func (c Parents) DoExchangeOnCutPoint() (*chromosome.Model, *chromosome.Model) {
+// DoExchangeOnCutPoint swap chromosome tails at the cut-off point
+func (c Parents) DoExchangeOnCutPoint() (chromosome.Model, chromosome.Model) {
 	newBinA := ""
 	newBinB := ""
 

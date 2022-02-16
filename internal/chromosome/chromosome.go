@@ -1,15 +1,15 @@
 package chromosome
 
 import (
-	"f6-implementation/internal/binary"
 	"f6-implementation/internal/fitness"
-	"f6-implementation/internal/rand"
+	"f6-implementation/pkg/util"
 	"math"
-	rand2 "math/rand"
+	"math/rand"
 )
 
 const binaryStringValues = "01"
 
+// Model chromosome implementation
 type Model struct {
 	fitness.Model
 	Bin   string
@@ -19,31 +19,35 @@ type Model struct {
 	YReal float64
 }
 
-func NewChromosome() *Model {
-	bin := rand.StringBytes(int(numberBits), binaryStringValues)
+// NewChromosome creates a new random chromosome
+func NewChromosome() Model {
+	newBin := util.GenerateString(numberBits, binaryStringValues)
+	return newChromosomeWithBin(newBin)
+}
+
+// NewPresetChromosome creates a chromosome with a binary specified
+func NewPresetChromosome(bin string) Model {
 	return newChromosomeWithBin(bin)
 }
 
-func NewPresetChromosome(bin string) *Model {
-	return newChromosomeWithBin(bin)
-}
-
-func newChromosomeWithBin(bin string) *Model {
-	model := &Model{
+// newChromosomeWithBin creates a chromosome with a binary specified
+func newChromosomeWithBin(bin string) Model {
+	model := Model{
 		Bin: bin,
 	}
 	model.ProcessBin()
 	return model
 }
 
+// ProcessBin process the binary value
 func (m *Model) ProcessBin() {
 	xBin := m.Bin[0:numberBitsEach]
 	yBin := m.Bin[numberBitsEach:numberBits]
 
 	multiplier := (domainMax - domainMin) / (math.Pow(2, float64(numberBitsEach)) - 1)
 
-	xReal := float64(binary.ToDecimal(xBin))*multiplier + domainMin
-	yReal := float64(binary.ToDecimal(yBin))*multiplier + domainMin
+	xReal := float64(util.BinaryToDecimal(xBin))*multiplier + domainMin
+	yReal := float64(util.BinaryToDecimal(yBin))*multiplier + domainMin
 
 	m.XBin = xBin
 	m.YBin = yBin
@@ -52,10 +56,11 @@ func (m *Model) ProcessBin() {
 	m.Fitness = functionModel.Evaluate(xReal, yReal)
 }
 
+// Mutate randomly mutates the binary value
 func (m *Model) Mutate() {
 	newBin := ""
 	for i := range m.Bin {
-		if rand2.Float64() < mutationRate {
+		if rand.Float64() < mutationRate {
 			newBin += flipBit(string(m.Bin[i]))
 		} else {
 			newBin += string(m.Bin[i])

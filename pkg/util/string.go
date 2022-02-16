@@ -1,4 +1,4 @@
-package rand
+package util
 
 import (
 	"math/rand"
@@ -9,7 +9,8 @@ func init() {
 	rand.Seed(time.Now().Unix())
 }
 
-func StringBytes(n int, letterBytes string) string {
+// GenerateString generates a random string given a list of possible values
+func GenerateString(n int, letterBytes string) string {
 	b := make([]byte, n)
 	for i := range b {
 		b[i] = letterBytes[rand.Intn(len(letterBytes))]
