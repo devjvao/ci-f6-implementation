@@ -1,7 +1,7 @@
 package f6
 
 import (
-	"f6-implementation/internal/fitness"
+	"ci-f6-implementation/internal/fitness"
 	"math"
 )
 

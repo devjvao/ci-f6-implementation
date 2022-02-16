@@ -1,6 +1,6 @@
 package chromosome
 
-import "f6-implementation/internal/fitness"
+import "ci-f6-implementation/internal/fitness"
 
 var (
 	functionModel  fitness.FunctionModel

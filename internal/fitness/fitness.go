@@ -1,8 +1,8 @@
 package fitness
 
 import (
+	"ci-f6-implementation/pkg/util"
 	"errors"
-	"f6-implementation/pkg/util"
 	"github.com/sirupsen/logrus"
 	"github.com/wcharczuk/go-chart/v2"
 	"os"

@@ -1,7 +1,7 @@
 package crossover
 
 import (
-	"f6-implementation/internal/chromosome"
+	"ci-f6-implementation/internal/chromosome"
 	"math"
 	"math/rand"
 )

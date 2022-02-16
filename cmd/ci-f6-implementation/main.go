@@ -1,12 +1,12 @@
 package main
 
 import (
-	"f6-implementation/internal/chromosome"
-	"f6-implementation/internal/crossover"
-	"f6-implementation/internal/f6"
-	"f6-implementation/internal/fitness"
-	"f6-implementation/internal/roulette"
-	"f6-implementation/pkg/log"
+	"ci-f6-implementation/internal/chromosome"
+	"ci-f6-implementation/internal/crossover"
+	"ci-f6-implementation/internal/f6"
+	"ci-f6-implementation/internal/fitness"
+	"ci-f6-implementation/internal/roulette"
+	"ci-f6-implementation/pkg/log"
 	"flag"
 	"fmt"
 	"github.com/schollz/progressbar/v3"
@@ -17,20 +17,17 @@ import (
 var logSpaces = strings.Repeat("=", 100)
 
 var (
+	bitsSize       int
+	domainMin      float64
+	domainMax      float64
+	mutationRate   float64
+	crossoverRate  float64
 	populationSize int
 	numGenerations int
 )
 
 func init() {
 	log.InitLog(logrus.InfoLevel)
-
-	var (
-		bitsSize      int
-		domainMin     float64
-		domainMax     float64
-		mutationRate  float64
-		crossoverRate float64
-	)
 
 	flag.IntVar(&bitsSize, "b", 44, "The chromosome bits size")
 	flag.IntVar(&populationSize, "p", 100, "The population size")

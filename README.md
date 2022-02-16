@@ -32,13 +32,13 @@ Run the following command to download the modules:
 Start the project with the default parameters:
 
  ```
- $ go run cmd/f6-implementation/main.go
+ $ go run cmd/ci-f6-implementation/main.go
  ```
 
 You can also customize a few parameters. In order to show them you can run:
 
 ```
-$ go run cmd/f6-implementation/main.go -h
+$ go run cmd/ci-f6-implementation/main.go -h
 Usage of path\to\main.exe:
    -b int
         The chromosome bits size (default 44)
@@ -61,10 +61,10 @@ Usage of path\to\main.exe:
 You are able to build the project by running:
 
  ```
- $ go build -o f6-implementation.exe cmd/f6-implementation/main.go
+ $ go build -o ci-f6-implementation.exe cmd/ci-f6-implementation/main.go
  ```
 
-This will compile the project into an executable named `f6-implementation.exe`.
+This will compile the project into an executable named `ci-f6-implementation.exe`.
 
 ### Formatting the Project
 

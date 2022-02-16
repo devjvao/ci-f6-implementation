@@ -1,8 +1,8 @@
 package roulette
 
 import (
+	"ci-f6-implementation/internal/chromosome"
 	"errors"
-	"f6-implementation/internal/chromosome"
 	log "github.com/sirupsen/logrus"
 	"math/rand"
 )

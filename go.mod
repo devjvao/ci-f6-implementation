@@ -1,4 +1,4 @@
-module f6-implementation
+module ci-f6-implementation
 
 go 1.16
 

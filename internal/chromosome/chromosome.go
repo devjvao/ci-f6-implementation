@@ -1,8 +1,8 @@
 package chromosome
 
 import (
-	"f6-implementation/internal/fitness"
-	"f6-implementation/pkg/util"
+	"ci-f6-implementation/internal/fitness"
+	"ci-f6-implementation/pkg/util"
 	"math"
 	"math/rand"
 )
