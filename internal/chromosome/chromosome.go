@@ -69,6 +69,17 @@ func (m *Model) Mutate() {
 	m.ProcessBin()
 }
 
+func (m Model) Clone() Model {
+	return Model{
+		Model: m.Model,
+		Bin:   m.Bin,
+		XBin:  m.XBin,
+		YBin:  m.YBin,
+		XReal: m.XReal,
+		YReal: m.YReal,
+	}
+}
+
 func flipBit(bit string) string {
 	if bit == "1" {
 		return "0"

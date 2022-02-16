@@ -9,6 +9,7 @@ import (
 	"f6-implementation/pkg/log"
 	"flag"
 	"fmt"
+	"github.com/schollz/progressbar/v3"
 	"github.com/sirupsen/logrus"
 	"strings"
 )
@@ -36,8 +37,8 @@ func init() {
 	flag.IntVar(&numGenerations, "g", 40, "The maximum number of generations")
 	flag.Float64Var(&domainMin, "min", -100, "The domain minimum")
 	flag.Float64Var(&domainMax, "max", 100, "The domain maximum")
-	flag.Float64Var(&mutationRate, "m", 0.1, "The mutation rate")
-	flag.Float64Var(&crossoverRate, "c", 0.6, "The crossover rate")
+	flag.Float64Var(&mutationRate, "m", 0.008, "The mutation rate")
+	flag.Float64Var(&crossoverRate, "c", 0.65, "The crossover rate")
 
 	flag.Parse()
 
@@ -49,9 +50,9 @@ func init() {
 	logrus.Info(logSpaces)
 	logrus.Info("Parameters: ")
 	logrus.Info(fmt.Sprintf("\tChromosome bits size: %d", bitsSize))
-	logrus.Info(fmt.Sprintf("\tDomain: { min: %f, max: %f }", domainMin, domainMax))
-	logrus.Info(fmt.Sprintf("\tMutation rate: %f", mutationRate))
-	logrus.Info(fmt.Sprintf("\tCrossover rate: %f", crossoverRate))
+	logrus.Info(fmt.Sprintf("\tDomain: { min: %.5f, max: %.5f }", domainMin, domainMax))
+	logrus.Info(fmt.Sprintf("\tMutation rate: %.5f", mutationRate))
+	logrus.Info(fmt.Sprintf("\tCrossover rate: %.5f", crossoverRate))
 	logrus.Info(fmt.Sprintf("\tPopulation size: %d", populationSize))
 	logrus.Info(fmt.Sprintf("\tMaximum generations: %d", numGenerations))
 	logrus.Info(logSpaces)
@@ -59,10 +60,12 @@ func init() {
 
 func main() {
 	var (
+		bar                    = progressbar.Default(int64(numGenerations))
 		bestIndividual         = chromosome.Model{}
 		bestFitnessGenerations []float64
 	)
 
+	// Randomly generates the first population
 	individuals := make([]chromosome.Model, populationSize)
 	for i := range individuals {
 		individuals[i] = chromosome.NewChromosome()
@@ -75,7 +78,7 @@ func main() {
 			currentWorstIndividualIndex = 0
 		)
 
-		// Calculate the maximum value for roulette
+		// Calculate the maximum value for the roulette
 		for i := range individuals {
 			rouletteMax += individuals[i].Fitness
 		}
@@ -112,7 +115,7 @@ func main() {
 
 		// Replace the worst chromosome with the best one
 		if bestIndividual.Bin != "" {
-			newIndividuals[currentWorstIndividualIndex] = bestIndividual
+			newIndividuals[currentWorstIndividualIndex] = bestIndividual.Clone()
 		}
 
 		// Check the best chromosome of the current generation
@@ -125,16 +128,18 @@ func main() {
 		// Prepare the next generation
 		individuals = newIndividuals
 
-		logrus.Info(fmt.Sprintf("Best chromosome of the generation %d: { XReal: %f, YReal: %f, Fitness: %f }",
-			g, currentBestIndividual.XReal, currentBestIndividual.YReal, currentBestIndividual.Fitness))
-
 		// Add best fitness to list
 		bestFitnessGenerations = append(bestFitnessGenerations, currentBestIndividual.Fitness)
 
 		// Assign best individual
 		if bestIndividual.Fitness < currentBestIndividual.Fitness {
 			bestIndividual = currentBestIndividual
+			_ = bar.Clear()
+			logrus.Info(fmt.Sprintf("Chromosome improvement on generation %d: { XReal: %.5f, YReal: %.5f, Fitness: %.5f }",
+				g, currentBestIndividual.XReal, currentBestIndividual.YReal, currentBestIndividual.Fitness))
 		}
+
+		_ = bar.Add(1)
 	}
 
 	// Calculate the fitness average
@@ -145,8 +150,8 @@ func main() {
 	fitnessAverage := fitnessSum / float64(len(bestFitnessGenerations))
 
 	logrus.Info(logSpaces)
-	logrus.Info(fmt.Sprintf("Fitness average: %f", fitnessAverage))
-	logrus.Info(fmt.Sprintf("Best chromosome of all: { XReal: %f, YReal: %f, Fitness: %f }",
+	logrus.Info(fmt.Sprintf("Fitness average: %.5f", fitnessAverage))
+	logrus.Info(fmt.Sprintf("Best chromosome of all: { XReal: %.5f, YReal: %.5f, Fitness: %.5f }",
 		bestIndividual.XReal, bestIndividual.YReal, bestIndividual.Fitness))
 	logrus.Info(logSpaces)
 
