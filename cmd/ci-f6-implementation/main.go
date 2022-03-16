@@ -132,8 +132,8 @@ func main() {
 		if bestIndividual.Fitness < currentBestIndividual.Fitness {
 			bestIndividual = currentBestIndividual
 			_ = bar.Clear()
-			logrus.Info(fmt.Sprintf("Chromosome improvement on generation %d: { XReal: %.5f, YReal: %.5f, Fitness: %.5f }",
-				g, currentBestIndividual.XReal, currentBestIndividual.YReal, currentBestIndividual.Fitness))
+			logrus.Info(fmt.Sprintf("Chromosome improvement on generation %d: { Bin: %s, XReal: %.5f, YReal: %.5f, Fitness: %.5f }",
+				g, currentBestIndividual.Bin, currentBestIndividual.XReal, currentBestIndividual.YReal, currentBestIndividual.Fitness))
 		}
 
 		_ = bar.Add(1)
@@ -148,8 +148,8 @@ func main() {
 
 	logrus.Info(logSpaces)
 	logrus.Info(fmt.Sprintf("Fitness average: %.5f", fitnessAverage))
-	logrus.Info(fmt.Sprintf("Best chromosome of all: { XReal: %.5f, YReal: %.5f, Fitness: %.5f }",
-		bestIndividual.XReal, bestIndividual.YReal, bestIndividual.Fitness))
+	logrus.Info(fmt.Sprintf("Best chromosome of all: { Bin: %s, XReal: %.5f, YReal: %.5f, Fitness: %.5f }",
+		bestIndividual.Bin, bestIndividual.XReal, bestIndividual.YReal, bestIndividual.Fitness))
 	logrus.Info(logSpaces)
 
 	fitness.GenerateChart(bestFitnessGenerations)
